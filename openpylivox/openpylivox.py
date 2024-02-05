@@ -5759,7 +5759,7 @@ def _convertBin2LAS(filePathAndName, deleteBin):
                                 break
 
                         # save lists of point data attributes to LAS file
-                        hdr = laspy.header.Header()
+                        hdr = laspy.header.LasHeader()
                         hdr.version = "1.2"
                         hdr.data_format_id = 3
 
