@@ -5760,7 +5760,7 @@ def _convertBin2LAS(filePathAndName, deleteBin):
 
                         # save lists of point data attributes to LAS file
                         hdr = laspy.LasHeader()
-                        hdr.version = "1.2"
+                        hdr.version = 1.2
                         hdr.data_format_id = 3
 
                         # the following ID fields must be less than or equal to 32 characters in length
