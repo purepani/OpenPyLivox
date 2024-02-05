@@ -5759,7 +5759,7 @@ def _convertBin2LAS(filePathAndName, deleteBin):
                                 break
 
                         # save lists of point data attributes to LAS file
-                        hdr = laspy.header.LasHeader()
+                        hdr = laspy.LasHeader()
                         hdr.version = "1.2"
                         hdr.data_format_id = 3
 
@@ -5780,9 +5780,7 @@ def _convertBin2LAS(filePathAndName, deleteBin):
                         hdr.system_id = System_ID
                         hdr.software_id = Software_ID
 
-                        lasfile = laspy.file.File(
-                            filePathAndName + ".las", mode="w", header=hdr
-                        )
+                        lasdata = laspy.LasData(hdr)
 
                         coord1s = np.asarray(coord1s, dtype=np.float32)
                         coord2s = np.asarray(coord2s, dtype=np.float32)
@@ -5791,18 +5789,18 @@ def _convertBin2LAS(filePathAndName, deleteBin):
                         xmin = np.floor(np.min(coord1s))
                         ymin = np.floor(np.min(coord2s))
                         zmin = np.floor(np.min(coord3s))
-                        lasfile.header.offset = [xmin, ymin, zmin]
+                        lasdata.header.offset = [xmin, ymin, zmin]
 
-                        lasfile.header.scale = [0.001, 0.001, 0.001]
+                        lasdata.header.scale = [0.001, 0.001, 0.001]
 
-                        lasfile.x = coord1s
-                        lasfile.y = coord2s
-                        lasfile.z = coord3s
-                        lasfile.gps_time = np.asarray(times, dtype=np.float32)
-                        lasfile.intensity = np.asarray(intensity, dtype=np.int16)
-                        lasfile.return_num = np.asarray(returnNums, dtype=np.int8)
+                        lasdata.x = coord1s
+                        lasdata.y = coord2s
+                        lasdata.z = coord3s
+                        lasdata.gps_time = np.asarray(times, dtype=np.float32)
+                        lasdata.intensity = np.asarray(intensity, dtype=np.int16)
+                        lasdata.return_num = np.asarray(returnNums, dtype=np.int8)
 
-                        lasfile.close()
+                        lasdata.write(filePathAndName + ".las")
 
                         pbari.close()
                         binFile.close()
