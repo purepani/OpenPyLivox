@@ -5913,7 +5913,6 @@ def _convertBin2LAS(filePathAndName, deleteBin):
                 binFile.close()
     except Exception as err:
         binFile.close()
-        print(f"Unexpected {err=}, {type(err)=}")
         raise
 
 
